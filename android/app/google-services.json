@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "701364834705",
+    "firebase_url": "https://notify-master-88af3.firebaseio.com",
+    "project_id": "notify-master-88af3",
+    "storage_bucket": "notify-master-88af3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701364834705:android:7a426bbda128096ff4ca30",
+        "android_client_info": {
+          "package_name": "com.example.ruetians"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXZxt9PlFx6bf8MOBbTUzwsbyr7PbdcO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701364834705:android:c81d86aa25a8be48f4ca30",
+        "android_client_info": {
+          "package_name": "com.sample.notify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701364834705-4ap3vgh63jd656hslo2oltt98tlb4o3s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sample.notify",
+            "certificate_hash": "3bc71e52b61c07cf8595411241a39d3467b089ee"
+          }
+        },
+        {
+          "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXZxt9PlFx6bf8MOBbTUzwsbyr7PbdcO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701364834705:android:8ccc57207cdc8d8bf4ca30",
+        "android_client_info": {
+          "package_name": "com.ztech.mobile_banking.mobile_banking_flutter_firebase_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXZxt9PlFx6bf8MOBbTUzwsbyr7PbdcO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701364834705-jtuestegic2h0q7cqkrmrg1avi1c1j2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
