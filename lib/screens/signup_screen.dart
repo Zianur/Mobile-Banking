@@ -11,17 +11,10 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  //checking signin status
-  Future<bool> _checkSignInStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    // Check if the user is signed in
-    return prefs.getBool('isSignedIn') ?? false;
-  }
 
   void _signUp() async {
     try {
@@ -34,7 +27,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // Add user phone number to Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'email': _emailController.text.trim(),
-        'phone': _phoneController.text.trim(),
+        'mobileNumber': _mobileController.text,
+        'currentBalance': 100000.0,
+        'availableBalance': 90000.0,
       });
 
       // Navigate to the home screen
@@ -68,8 +63,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               obscureText: true,
             ),
             TextField(
-              controller: _phoneController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
+              controller: _mobileController,
+              decoration: InputDecoration(labelText: 'Mobile Number'),
               keyboardType: TextInputType.phone,
             ),
             SizedBox(height: 20),

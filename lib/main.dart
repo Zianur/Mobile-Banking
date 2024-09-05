@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_banking_flutter_firebase_app/screens/deposit_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/home_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/signin_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/signup_screen.dart';
+import 'package:mobile_banking_flutter_firebase_app/screens/transfer_screen.dart';
+import 'package:mobile_banking_flutter_firebase_app/screens/withdraw_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Firebase Auth',
       home: FutureBuilder<bool>(
         future: _checkSignInStatus(),
@@ -45,6 +49,9 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/signin': (context) => SignInScreen(),
         '/home': (context) => HomeScreen(),
+        '/deposit': (context) => DepositScreen(),
+        '/withdraw': (context) => WithdrawScreen(),
+        '/transfer': (context) => TransferScreen(),
       },
     );
   }

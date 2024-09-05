@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  late String uid;
+
+  @override
+  void initState() {
+    super.initState();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +27,9 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFundSummary(),
+            _buildBalanceSection(),
+            SizedBox(height: 20),
+            _buildTransactionButtons(context),
             SizedBox(height: 20),
             _buildRecentTransactions(),
           ],
@@ -21,62 +38,90 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // Widget to display fund summary
-  Widget _buildFundSummary() {
-    // Placeholder data; replace with actual data fetched from your backend or database
-    double currentFunds = 5000.00;
-    double availableFunds = 4500.00;
+  // Section to display user's current and available balance
+  Widget _buildBalanceSection() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        var userDoc = snapshot.data!;
+        double currentBalance = userDoc['currentBalance'] ?? 0.0;
+        double availableBalance = userDoc['availableBalance'] ?? 0.0;
 
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Fund Summary',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text('Current Funds: \$${currentFunds.toStringAsFixed(2)}'),
-            Text('Available Funds: \$${availableFunds.toStringAsFixed(2)}'),
+            Text('Current Balance: \$${currentBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
+            Text('Available Balance: \$${availableBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 
-  // Widget to display recent transactions
-  Widget _buildRecentTransactions() {
-    // Placeholder data; replace with actual data fetched from your backend or database
-    List<Map<String, String>> transactions = [
-      {'date': '2024-09-04', 'type': 'Deposit', 'amount': '\$500'},
-      {'date': '2024-09-03', 'type': 'Withdrawal', 'amount': '\$200'},
-      {'date': '2024-09-02', 'type': 'Transfer', 'amount': '\$300'},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // Buttons for deposit, withdraw, and transfer
+  Widget _buildTransactionButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text(
-          'Recent Transactions',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ElevatedButton(
+          onPressed: () => Navigator.pushNamed(context, '/deposit'),
+          child: Text('Deposit'),
         ),
-        SizedBox(height: 10),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: transactions.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Icon(Icons.attach_money),
-              title: Text('${transactions[index]['type']}'),
-              subtitle: Text('${transactions[index]['date']}'),
-              trailing: Text('${transactions[index]['amount']}'),
-            );
-          },
+        ElevatedButton(
+          onPressed: () => Navigator.pushNamed(context, '/withdraw'),
+          child: Text('Withdraw'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pushNamed(context, '/transfer'),
+          child: Text('Transfer'),
         ),
       ],
+    );
+  }
+
+  // Display recent transactions or a message if no transactions are found
+  Widget _buildRecentTransactions() {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .collection('transactions')
+            .orderBy('timestamp', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          var transactions = snapshot.data!.docs;
+
+          if (transactions.isEmpty) {
+            // Display message if no transactions exist
+            return Center(
+              child: Text(
+                'No transactions yet',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            );
+          }
+
+          // Display list of transactions
+          return ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              var transaction = transactions[index];
+              return ListTile(
+                title: Text('${transaction['type']} - \$${transaction['amount'].toStringAsFixed(2)}'),
+                subtitle: Text(transaction['timestamp'].toDate().toString()),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
