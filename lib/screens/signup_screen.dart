@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -14,6 +15,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //checking signin status
+  Future<bool> _checkSignInStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Check if the user is signed in
+    return prefs.getBool('isSignedIn') ?? false;
+  }
 
   void _signUp() async {
     try {

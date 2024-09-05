@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utilities/loading_dialog.dart';
 
@@ -24,6 +25,10 @@ class _SignInScreenState extends State<SignInScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      //Sign in State checking
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isSignedIn', true); // Save sign-in state
 
       hideLoadingDialog(context); // Hide loading dialog
 
