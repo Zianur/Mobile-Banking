@@ -71,63 +71,90 @@ class _FundDetailsScreenState extends State<FundDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fund Details'),
-        actions: [
-          DropdownButton<String>(
-            value: filter,
-            items: ['Day', 'Week', 'Month', 'Year']
-                .map((String value) => DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            ))
-                .toList(),
-            onChanged: (newValue) {
-              setState(() {
-                filter = newValue!;
-                _fetchTransactions();
-              });
-            },
+      body: Column(
+        children: [ 
+          Container(
+            color: Color(0xFF093C65),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: Container(
+                    width: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: filter,
+                          items: ['Day', 'Week', 'Month', 'Year']
+                              .map((String value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ))
+                              .toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              filter = newValue!;
+                              _fetchTransactions();
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-      body: transactions.isEmpty
-          ? Center(child: Text('No transactions yet'))
-          : Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SfCartesianChart(
-                primaryXAxis: DateTimeAxis(),
-                title: ChartTitle(text: 'Transactions Overview'),
-                legend: Legend(isVisible: true),
-                tooltipBehavior: TooltipBehavior(enable: true),
-                series: <ChartSeries<TransactionData, DateTime>>[
-                  ColumnSeries<TransactionData, DateTime>(
-                    dataSource: transactions,
-                    xValueMapper: (TransactionData data, _) => data.timestamp,
-                    yValueMapper: (TransactionData data, _) => data.amount,
-                    name: 'Transactions',
-                    dataLabelSettings: DataLabelSettings(isVisible: true),
-                  )
+          Expanded(
+            child: transactions.isEmpty
+                ? Center(child: Text('No transactions yet'))
+                : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SfCartesianChart(
+                      primaryXAxis: DateTimeAxis(),
+                      title: ChartTitle(text: 'Transactions Overview'),
+                      legend: Legend(isVisible: false),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<TransactionData, DateTime>>[
+                        ColumnSeries<TransactionData, DateTime>(
+                          dataSource: transactions,
+                          xValueMapper: (TransactionData data, _) => data.timestamp,
+                          yValueMapper: (TransactionData data, _) => data.amount,
+                          name: 'Transactions',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text("All Transactions"),
+                  Divider(
+                      color: Colors.black
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: transactions.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text('${transactions[index].type} - \$${transactions[index].amount}'),
+                            subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss')
+                                .format(transactions[index].timestamp)),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${transactions[index].type} - \$${transactions[index].amount}'),
-                    subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .format(transactions[index].timestamp)),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

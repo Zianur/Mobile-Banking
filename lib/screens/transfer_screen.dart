@@ -110,15 +110,19 @@ class _TransferScreenState extends State<TransferScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: _mobileNumberController,
-              decoration: InputDecoration(labelText: 'Recipient Mobile Number'),
+              decoration: InputDecoration(labelText: 'Recipient Mobile Number',
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.phone,
             ),
             SizedBox(height: 20),
             TextField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: InputDecoration(labelText: 'Amount',
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 20),

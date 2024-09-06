@@ -19,21 +19,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildBalanceSection(),
-            SizedBox(height: 20),
-            _buildTransactionButtons(context),
-            SizedBox(height: 20),
-            _buildRecentTransactions(),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: Color(0xFF093C65),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: _buildBalanceSection(),
+                  ),
+                  SizedBox(height: 20),
+                  _buildTransactionButtons(context),
+                  SizedBox(height: 20),
+                ],
+              )
+          ),
+          SizedBox(height: 20),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8,0,0,0),
+                child: Text("Transactions in last 7 days"),
+              )
+          ),
+          Divider(
+              color: Colors.black
+          ),
+          _buildRecentTransactions(),
+        ],
       ),
     );
   }
@@ -49,13 +63,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
         var userDoc = snapshot.data!;
         double currentBalance = userDoc['currentBalance'] ?? 0.0;
         double availableBalance = userDoc['availableBalance'] ?? 0.0;
+        String email = userDoc['email']?? "Email";
+        String mobileNumber = userDoc['mobileNumber']?? "Mobile Number";
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Current Balance: \$${currentBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
-            Text('Available Balance: \$${availableBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
-          ],
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('$email', style: TextStyle(fontSize: 10)),
+                Text('$mobileNumber', style: TextStyle(fontSize: 20)),
+                SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Current Balance', style: TextStyle(fontSize: 14)),
+                        Text('\$${currentBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
+                      ],
+                    ),
+
+                    Column(
+                      children: [
+                        Text('Available Balance', style: TextStyle(fontSize: 14)),
+                        Text('\$${availableBalance.toStringAsFixed(2)}', style: TextStyle(fontSize: 18)),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -84,12 +124,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Display recent transactions or a message if no transactions are found
   Widget _buildRecentTransactions() {
+    DateTime now = DateTime.now();
+    DateTime sevenDaysAgo = now.subtract(Duration(days: 7));
+
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(uid)
             .collection('transactions')
+            .where('timestamp', isGreaterThanOrEqualTo: sevenDaysAgo)
             .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -114,9 +158,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             itemCount: transactions.length,
             itemBuilder: (context, index) {
               var transaction = transactions[index];
-              return ListTile(
-                title: Text('${transaction['type']} - \$${transaction['amount'].toStringAsFixed(2)}'),
-                subtitle: Text(transaction['timestamp'].toDate().toString()),
+              return Card(
+                child: ListTile(
+                  title: Text('${transaction['type']} - \$${transaction['amount'].toStringAsFixed(2)}'),
+                  subtitle: Text(transaction['timestamp'].toDate().toString()),
+                ),
               );
             },
           );

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/deposit_screen.dart';
+import 'package:mobile_banking_flutter_firebase_app/screens/forget_password.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/home_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/signin_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/signup_screen.dart';
@@ -27,7 +28,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Firebase Auth',
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              backgroundColor: Color(0xFF093C65),
+              foregroundColor: Colors.white, //here you can give the text color
+
+          ),
+      ),
+      title: 'FMA',
       home: FutureBuilder<bool>(
         future: _checkSignInStatus(),
         builder: (context, snapshot) {
@@ -52,6 +60,7 @@ class MyApp extends StatelessWidget {
         '/deposit': (context) => DepositScreen(),
         '/withdraw': (context) => WithdrawScreen(),
         '/transfer': (context) => TransferScreen(),
+        '/forgot-password': (context) => ForgotPasswordPage(),
       },
     );
   }

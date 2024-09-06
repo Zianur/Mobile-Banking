@@ -35,6 +35,7 @@ class _SignInScreenState extends State<SignInScreen> {
       // Navigate to the home screen
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
+      hideLoadingDialog(context); // Hide loading dialog
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign in: $e')),
       );
@@ -52,14 +53,19 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
-            TextField(
+            SizedBox(height: 10,),
+            TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
               obscureText: true,
             ),
             SizedBox(height: 20),
@@ -72,6 +78,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 Navigator.pushReplacementNamed(context, '/signup');
               },
               child: Text('Don\'t have an account? Sign Up'),
+            ),
+            SizedBox(height: 20),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/forgot-password');
+              },
+              child: Text('Forgot Password?'),
             ),
           ],
         ),

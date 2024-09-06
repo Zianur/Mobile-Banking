@@ -67,9 +67,11 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: InputDecoration(labelText: 'Amount',
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 20),
