@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>701364834705-4ap3vgh63jd656hslo2oltt98tlb4o3s.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDk3CPctOpUQHdc3zcrPLi60EF3eugwwT0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>701364834705</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ztech.mobilebanking.mobileBankingFlutterFirebaseApp</string>
+	<key>PROJECT_ID</key>
+	<string>notify-master-88af3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>notify-master-88af3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:701364834705:ios:064d73d80d916709f4ca30</string>
+	<key>DATABASE_URL</key>
+	<string>https://notify-master-88af3.firebaseio.com</string>
+</dict>
+</plist>
