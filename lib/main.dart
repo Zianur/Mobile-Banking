@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/deposit_screen.dart';
 import 'package:mobile_banking_flutter_firebase_app/screens/forget_password.dart';
@@ -9,11 +11,28 @@ import 'package:mobile_banking_flutter_firebase_app/screens/transfer_screen.dart
 import 'package:mobile_banking_flutter_firebase_app/screens/withdraw_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MyApp());
+// }
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode, // Enable Device Preview only in debug mode
+      builder: (context) => MyApp(), // Wrap your app with DevicePreview
+    ),
+  );
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
