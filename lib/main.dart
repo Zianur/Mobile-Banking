@@ -11,6 +11,8 @@ import 'package:mobile_banking_flutter_firebase_app/screens/transfer_screen.dart
 import 'package:mobile_banking_flutter_firebase_app/screens/withdraw_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_options.dart';
+
 
 
 // void main() async {
@@ -22,11 +24,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  // Initialize Firebase with platform-specific options
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode, // Enable Device Preview only in debug mode
+      enabled: !kReleaseMode, // Enable Device Preview in debug mode only
       builder: (context) => MyApp(), // Wrap your app with DevicePreview
     ),
   );
